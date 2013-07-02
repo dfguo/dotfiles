@@ -68,11 +68,20 @@ todo(){
   fi
 }
 
+rails_evn() {
+  if [[ $RAILS_ENV == "production" ]]
+  then
+    echo "%{$fg_bold[red]%}$RAILS_ENV%{$reset_color%}"
+  else
+    echo "%{$fg_bold[green]%}$RAILS_ENV%{$reset_color%}"
+  fi
+}
 directory_name(){
   echo "%{$fg_bold[cyan]%}%1/%\/%{$reset_color%}"
 }
 
-export PROMPT=$'\n$(rvm_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
+#export PROMPT=$'\n[$(rails_evn)] $(rvm_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
+export PROMPT=$'\n[$(rails_evn)] $(rvm_prompt) in $(directory_name) $(git_branch)\n› '
 set_prompt () {
   export RPROMPT="%{$fg_bold[cyan]%}$(todo)%{$reset_color%}"
 }

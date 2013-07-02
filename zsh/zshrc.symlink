@@ -4,7 +4,6 @@ export ZSH=$HOME/.dotfiles
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Development
 
-# source every .zsh file in this rep
 for config_file ($ZSH/**/*.zsh) source $config_file
 
 # use .localrc for SUPER SECRET CRAP that you don't
@@ -21,4 +20,29 @@ compinit
 # load every completion after autocomplete loads
 for config_file ($ZSH/**/completion.sh) source $config_file
 
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export PATH=/opt/local/bin:/opt/local/sbin:/Users/dafeng/Code/get-shit-done:$PATH
+export PATH=/Library/PostgreSQL/9.1/bin:/usr/local/bin:$PATH
+export NODE_PATH="/usr/local/lib/node"
+
+
+STRIKINGLY_DEV_ENV_DIR=$HOME/.strikingly/envfiles-dev
+STRIKINGLY_PROD_ENV_DIR=$HOME/.strikingly/envfiles-prod
+
+# HUBOT
+source "$STRIKINGLY_DEV_ENV_DIR/hubot.env"
+
+# Source Strikingly Common Env files
+source "$STRIKINGLY_DEV_ENV_DIR/common.env"
+
+# Set the default the environment as 'development'
+if [ -z "${RAILS_ENV+xxx}" ]; then RAILS_ENV="development"; fi
+
+# Source environment variables 
+if [ "$RAILS_ENV" = "production" ]
+then
+  source "$STRIKINGLY_PROD_ENV_DIR/$RAILS_ENV.env"
+else
+  source "$STRIKINGLY_DEV_ENV_DIR/$RAILS_ENV.env"
+fi
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
